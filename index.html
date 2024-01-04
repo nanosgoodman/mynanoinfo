@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>My Nano Info</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+    <link rel="canonical" href="https://www.mynanoinfo.com">
+
+    <meta name="description" content="Welcome to My Nano Info, all things about your Nano Address">
+    <meta name="keywords" content="My, Nano, Info, Free, Developer, Blockchain, Crypto, XNO">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="icon" type="image/png" href="/images/mni_logo.png">
+
+
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/mni.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+</head>
+<body class="is-preload">
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <h1 id="logo"><a href="index.html">MNI</a></h1>
+            <select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value)">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="CAD">CAD</option>
+                <option value="GBP">GBP</option>
+                <option value="CNY">CNY</option>
+                <option value="JPY">JPY</option>
+                <option value="BTC">BTC</option>
+            </select>
+            <form id="formSearch">
+                <input class="inpt-main" type="text" name="address" id="inptSearch" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" />
+                <button type="button" class="btn-main" id="btnSearch" onclick="btnSearch_Press()"><i class="fa fa-search"></i></button>
+            </form>
+        </header>
+
+        <h5 style="padding: 1.25rem 0 0 1.25rem;">Ӿ = <span id="fiatSymbol"></span><a href="https://www.coingecko.com/en/coins/nano"><span id="fiatPrice"></span></a></h5>
+
+        <!-- Main -->
+        <div id="main" class="wrapper style1">
+            <div class="container">
+                <header class="major">
+                    <h2>My <span style="color:#209ce9">Address</span></h2>
+                    <p id="txtAddress" style="margin-bottom:.25rem !important; line-break:anywhere"></p>
+                    <h3 style="margin-bottom:.25rem !important;"><span id="txtBalanceNano"></span></h3>
+                    <h5 id="txtDateCreated" style="margin-bottom:.25rem !important;"></h5>
+                    <p id="errLog" style="margin-bottom:.25rem !important;"></p>
+                </header>
+
+                <!-- Account Info -->
+                <section class="mrg-btm">
+                    <div class="row">
+                        <div class="col-12 col-12-xsmall">
+                            <header class="name-value">
+                                <h3>Latest Transaction</h3>
+                                <div class="row">
+                                    <span class="col-3 col-12-xsmall">Type:</span>
+                                    <span id="txtLatestType" class="col-9 col-12-xsmall"></span>
+                                </div>
+                                <div class="row">
+                                    <span class="col-3 col-12-xsmall">Account:</span>
+                                    <span id="txtLatestAccount" class="col-9 col-12-xsmall" style="line-break: anywhere"></span>
+                                </div>
+                                <div class="row">
+                                    <span class="col-3 col-12-xsmall">Amount (Ӿ):</span>
+                                    <span class="col-9 col-12-xsmall"><span id="txtLatestAmountNano"></span></span>
+                                </div>
+                                <div class="row">
+                                    <span class="col-3 col-12-xsmall">Amount ($):</span>
+                                    <span id="txtLatestAmountFiat" class="col-9 col-12-xsmall"></span>
+                                </div>
+                                <div class="row">
+                                    <span class="col-3 col-12-xsmall">Date:</span>
+                                    <span id="txtLatestDate" class="col-9 col-12-xsmall"></span>
+                                </div>
+                                <div class="row">
+                                    <span class="col-3 col-12-xsmall">Height:</span>
+                                    <span id="txtConfHeight" class="col-9 col-12-xsmall"></span>
+                                </div>
+                            </header>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- All Transactions -->
+                <section>
+                    <h3>Last 10 Transactions</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Account</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblTransactions">
+                            </tbody>
+                        </table>
+                        <div id="pagination"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <section id="footer">
+            <ul class="icons">
+            </ul>
+            <ul class="copyright">
+                <li>&copy; 2023. NanosGoodman</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <!-- Scripts -->
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/jquery.dropotron.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="/assets/js/mni.js"></script>
+    
+
+
+</body>
+</html>

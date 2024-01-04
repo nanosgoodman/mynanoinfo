@@ -1,0 +1,94 @@
+.mrg-btm {
+    margin-bottom: 7.5rem;
+}
+
+/*.name-value div span:first-child {
+    color: #c8c8c8
+}*/
+
+.name-value div span:last-child {
+    font-weight: 600;
+    margin-bottom:.25rem;
+}
+
+.drpdwn-main {
+    height: 2em !important;
+    line-height: 2em !important;
+    padding: 0 1.25em !important;
+    position: absolute;
+    right: 310px;
+    top: .75em;
+    max-width: 130px;
+}
+
+.btn-main {
+    all: unset;
+    height: 2em !important;
+    line-height: 2em !important;
+    padding: 0 .5em !important;
+    position: absolute !important;
+    right: 1.25rem !important;
+    top: .75em !important;
+    max-width:20px;
+}
+
+    .btn-main:hover {
+        cursor: pointer !important;
+        color: white !important;
+    }
+
+.inpt-main {
+    height: 2em !important;
+    padding: 0 2.5em 0 1em !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+    max-width: 280px;
+    position: absolute;
+    right: 1.25rem;
+    top: .75em;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+}
+
+@media screen and (max-width: 736px) {
+    .btn-main {
+        top: .4em !important
+    }
+
+    .inpt-main {
+        top: .4em !important;
+        max-width: 150px;
+    }
+
+    .drpdwn-main {
+        top: .4em !important;
+        right: 180px;
+        max-width: 100px;
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    .btn-main {
+        top: .4em !important;
+        right: .5rem !important;
+    }
+
+    .inpt-main {
+        top: .4em !important;
+        max-width: 110px;
+        right: .5rem;
+    }
+
+    .drpdwn-main {
+        top: .4em !important;
+        right: 125px;
+        max-width: 100px;
+    }
+}
