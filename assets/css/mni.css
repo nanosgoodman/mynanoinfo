@@ -11,6 +11,18 @@
     margin-bottom:.25rem;
 }
 
+#pagination {
+    text-align:center;
+}
+
+    #pagination span {
+        padding:.25em;
+        margin:.5em
+    }
+    #pagination span:hover {
+        cursor: pointer;
+    }
+
 .drpdwn-main {
     height: 2em !important;
     line-height: 2em !important;

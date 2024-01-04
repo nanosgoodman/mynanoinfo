@@ -1,4 +1,8 @@
-const USDPRICE = 1.15
+var _usdPrice = 1.15
+var _transactionHistory
+var _itemsPerPage = 15;
+var _currentPage = 1;
+
 function btnSearch_Press() {
     var address = $('#inptSearch').val();
     if ($("#formSearch")[0].checkValidity()) {
@@ -73,7 +77,7 @@ function get_price_data(currency) {
         success: function (data) {
             $('#currency').removeAttr('disabled');
             if (data[0].current_price == null) {
-                $('#fiatPrice').text(USDPRICE);
+                $('#fiatPrice').text(_usdPrice);
                 $('#fiatSymbol').text("$");
             } else {
                 $('#fiatPrice').text(data[0].current_price);
@@ -84,7 +88,7 @@ function get_price_data(currency) {
         },
         error: function (error) {
             $('#currency').attr('disabled', 'disabled');
-            $('#fiatPrice').text(USDPRICE);
+            $('#fiatPrice').text(_usdPrice);
             $('#fiatSymbol').text("$");
         }
     });
@@ -150,8 +154,19 @@ function get_address_data() {
         return post(RPC_SERVER, input);
     }
 
+    async function get_account_balance(address) {
+        let ret = await account_balance(address);
+        var acctLink = '<a href="https://nanolooker.com/account/' + address + '" target="_blank">' + address + '</a>';
+        $('#txtAddress').empty();
+        $('#txtAddress').append(acctLink);
+        var formattedBalance = (ret.balance / 1e30).toFixed(NANO_DECIMAL);
+        var fiatBalance = formattedBalance * FIATPRICE;
+        $('#txtBalanceNano').text("\u04FE" + formattedBalance + " (" + FIATSYMBOL + fiatBalance.toFixed(2) + ")");
+    }
+
     async function get_account_history(address) {
         let ret = await account_history(address);
+        _transactionHistory = ret;
 
         //First Transaction
         var firstTransaction = ret.history[ret.history.length - 1];
@@ -184,36 +199,54 @@ function get_address_data() {
         $('#txtConfHeight').text(latestTransaction.height);
 
 
-        //Latest 10 transactions
-        ret.history.slice(0, TABLE_COUNT).forEach(transaction => {
-            var formattedBalance = (transaction.amount / 1e30).toFixed(NANO_DECIMAL);
-            var readableDate = convert_timestamp_to_date(transaction.local_timestamp);
-            var acctLink = '<a href="https://nanolooker.com/account/' + transaction.account + '" target="_blank">' + transaction.account + '</a>';
-            var transType = '';
-            if (transaction.type == 'send') {
-                transType = '<b style="color:#e04576">' + transaction.type + '</b>'
-            } else if (transaction.type == 'receive') {
-                transType = '<b style="color:rgb(22, 199, 132)">' + transaction.type + '</b>'
-            } else {
-                transType = '<b style="color:blue">' + transaction.type + '</b>'
-            }
-            var transactionRow = '<tr><td>' + readableDate + '</td><td>' + transType + '</td><td>' + acctLink + '</td><td>' + '\u04FE' + formattedBalance + '</td></tr>';
-            $('#tblTransactions').append(transactionRow);
-        });
+        // Initial setup
+        updateTable(_currentPage);
+        updatePagination();
   
     }
 
-    async function get_account_balance(address) {
-        let ret = await account_balance(address);
-        var acctLink = '<a href="https://nanolooker.com/account/' + address + '" target="_blank">' + address + '</a>';
-        $('#txtAddress').empty();
-        $('#txtAddress').append(acctLink);
-        var formattedBalance = (ret.balance / 1e30).toFixed(NANO_DECIMAL);
-        var fiatBalance = formattedBalance * FIATPRICE;
-        $('#txtBalanceNano').text("\u04FE" + formattedBalance + " (" + FIATSYMBOL + fiatBalance.toFixed(2) + ")");
-    }
     get_account_balance(address);
     get_account_history(address);
+}
+
+function updateTable(page) {
+    $('#tblTransactions').empty();
+    var startIndex = (page - 1) * _itemsPerPage;
+    var endIndex = startIndex + _itemsPerPage;
+
+    _transactionHistory.history.slice(startIndex, endIndex).forEach(transaction => {
+        var formattedBalance = (transaction.amount / 1e30).toFixed(NANO_DECIMAL);
+        var readableDate = convert_timestamp_to_date(transaction.local_timestamp);
+        var acctLink = '<a href="https://nanolooker.com/account/' + transaction.account + '" target="_blank">' + transaction.account + '</a>';
+        var transType = '';
+        if (transaction.type == 'send') {
+            transType = '<b style="color:#e04576">' + transaction.type + '</b>'
+        } else if (transaction.type == 'receive') {
+            transType = '<b style="color:rgb(22, 199, 132)">' + transaction.type + '</b>'
+        } else {
+            transType = '<b style="color:blue">' + transaction.type + '</b>'
+        }
+        var transactionRow = '<tr><td>' + readableDate + '</td><td>' + transType + '</td><td>' + acctLink + '</td><td>' + '\u04FE' + formattedBalance + '</td></tr>';
+        $('#tblTransactions').append(transactionRow);
+    });
+}
+
+function updatePagination() {
+    var totalPages = Math.ceil(_transactionHistory.history.length / _itemsPerPage);
+
+    var paginationHTML = '';
+
+    for (var i = 1; i <= totalPages; i++) {
+        paginationHTML += `<span onclick="changePage(${i})">${i}</span>`;
+    }
+
+    $('#pagination').html(paginationHTML);
+}
+
+function changePage(page) {
+    _currentPage = page;
+    updateTable(_currentPage);
+    updatePagination();
 }
 
 $(function () {
