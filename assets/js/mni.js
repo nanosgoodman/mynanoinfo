@@ -71,7 +71,7 @@ function get_price_data(currency) {
         url: url,
         method: 'GET',
         success: function (data) {
-            
+            $('#currency').removeAttr('disabled');
             if (data[0].current_price == null) {
                 $('#fiatPrice').text(USDPRICE);
                 $('#fiatSymbol').text("$");
@@ -83,6 +83,7 @@ function get_price_data(currency) {
             get_address_data();
         },
         error: function (error) {
+            $('#currency').attr('disabled', 'disabled');
             $('#fiatPrice').text(USDPRICE);
             $('#fiatSymbol').text("$");
         }
