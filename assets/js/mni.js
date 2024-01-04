@@ -235,11 +235,21 @@ function updatePagination() {
     var totalPages = Math.ceil(_transactionHistory.history.length / _itemsPerPage);
 
     var paginationHTML = '';
-
+    if (_currentPage > 1) {
+        paginationHTML += `<span onclick="changePage(${_currentPage - 1})"><</span>`;
+    }  
     for (var i = 1; i <= totalPages; i++) {
-        paginationHTML += `<span onclick="changePage(${i})">${i}</span>`;
+        if (i == _currentPage) {
+            paginationHTML += `<p style="font-weight:bold">${i}</p>`;
+        } else {
+            paginationHTML += `<span onclick="changePage(${i})">${i}</span>`;
+        }
+        
     }
-
+    if (_currentPage < totalPages) {
+        paginationHTML += `<span onclick="changePage(${_currentPage + 1})">></span>`;
+    }
+    
     $('#pagination').html(paginationHTML);
 }
 

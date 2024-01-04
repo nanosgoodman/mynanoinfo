@@ -22,8 +22,14 @@
     #pagination span:hover {
         cursor: pointer;
     }
+    #pagination p {
+        display: inline;
+        padding: .25em;
+        margin: .5em;
+        color:white;
+    }
 
-.drpdwn-main {
+    .drpdwn-main {
     height: 2em !important;
     line-height: 2em !important;
     padding: 0 1.25em !important;
