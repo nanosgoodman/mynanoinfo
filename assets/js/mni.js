@@ -1,4 +1,4 @@
-USDPRICE = 1.15
+const USDPRICE = 1.15
 function btnSearch_Press() {
     var address = $('#inptSearch').val();
     if ($("#formSearch")[0].checkValidity()) {
@@ -83,7 +83,8 @@ function get_price_data(currency) {
             get_address_data();
         },
         error: function (error) {
-            $('#fiatPrice').text('N/A');
+            $('#fiatPrice').text(USDPRICE);
+            $('#fiatSymbol').text("$");
         }
     });
 }
@@ -100,9 +101,6 @@ function get_address_data() {
     NANO_DECIMAL = 6;
     FIATPRICE = $('#fiatPrice').text();
     FIATSYMBOL = $('#fiatSymbol').text();
-    if (FIATPRICE == 'N/A') {
-        FIATPRICE = USDPRICE
-    }
 
     function post(url, params) {
 
