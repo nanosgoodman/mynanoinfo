@@ -68,8 +68,7 @@ function get_price_data(currency) {
     const vsCurrency = currency;
     const currencySymbol = get_currency_symbol(currency)
     const coinIds = 'nano';
-    const apiKey = '';
-    const url = `${apiUrl}?vs_currency=${vsCurrency}&ids=${coinIds}&x_cg_demo_api_key=${apiKey}`;
+    const url = `${apiUrl}?vs_currency=${vsCurrency}&ids=${coinIds}`;
 
     $.ajax({
         url: url,
@@ -90,6 +89,27 @@ function get_price_data(currency) {
             $('#currency').attr('disabled', 'disabled');
             $('#fiatPrice').text(_usdPrice);
             $('#fiatSymbol').text("$");
+        }
+    });
+}
+
+function get_price_data_on_date(date) {
+    const apiUrl = 'https://api.coingecko.com/api/v3/coins/nano/history';
+    var ret = date.split(', ')[0]
+    const formattedDate = moment(ret, "M/D/YYYY").format("DD-MM-YYYY");
+    const url = `${apiUrl}?date=${formattedDate}&localization=false`;
+    
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (data) {
+            console.log(data.market_data.current_price.usd);
+            //$('#txtLatestAmountFiat').text(FIATSYMBOL + latestAmountFiat.toFixed(2));
+        },
+        error: function (error) {
+            console.log(error);
+            $('#txtLatestAmountFiat').text("Failed");
         }
     });
 }
@@ -195,6 +215,7 @@ function get_address_data() {
         $('#txtLatestAccount').append(latestAcct);
         $('#txtLatestAmountNano').text("\u04FE" + latestAmountNano);
         $('#txtLatestAmountFiat').text(FIATSYMBOL + latestAmountFiat.toFixed(2));
+        //get_price_data_on_date(latestDate);
         $('#txtLatestDate').text(latestDate);
         $('#txtConfHeight').text(latestTransaction.height);
 

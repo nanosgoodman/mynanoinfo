@@ -27,7 +27,7 @@
 
         <!-- Header -->
         <header id="header">
-            <h1 id="logo"><a href="index.html">MNI</a></h1>
+            <h1 id="logo"><a href="index.html">M<span style="color: #209ce9">N</span>I</a></h1>
             <select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value)">
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
@@ -75,7 +75,7 @@
                                     <span class="col-9 col-12-xsmall"><span id="txtLatestAmountNano"></span></span>
                                 </div>
                                 <div class="row">
-                                    <span class="col-3 col-12-xsmall">Amount ($):</span>
+                                    <span class="col-3 col-12-xsmall">Current Fiat Amount:</span>
                                     <span id="txtLatestAmountFiat" class="col-9 col-12-xsmall"></span>
                                 </div>
                                 <div class="row">
@@ -135,7 +135,7 @@
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="/assets/js/mni.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 
 </body>
