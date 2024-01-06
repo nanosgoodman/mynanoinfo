@@ -181,7 +181,7 @@ function get_address_data() {
         $('#txtAddress').append(acctLink);
         var formattedBalance = (ret.balance / 1e30).toFixed(NANO_DECIMAL);
         var fiatBalance = formattedBalance * FIATPRICE;
-        $('#txtBalanceNano').text("\u04FE" + formattedBalance + " (" + FIATSYMBOL + fiatBalance.toFixed(2) + ")");
+        $('#txtBalanceNano').text("\u04FE" + Number(formattedBalance).toLocaleString() + " (" + FIATSYMBOL + Number(fiatBalance.toFixed(2)).toLocaleString() + ")");
     }
 
     async function get_account_history(address) {
@@ -213,8 +213,8 @@ function get_address_data() {
         $('#txtLatestAccount').empty();
         $('#txtLatestType').append(latestType);
         $('#txtLatestAccount').append(latestAcct);
-        $('#txtLatestAmountNano').text("\u04FE" + latestAmountNano);
-        $('#txtLatestAmountFiat').text(FIATSYMBOL + latestAmountFiat.toFixed(2));
+        $('#txtLatestAmountNano').text("\u04FE" + Number(latestAmountNano).toLocaleString());
+        $('#txtLatestAmountFiat').text(FIATSYMBOL + Number(latestAmountFiat.toFixed(2)).toLocaleString());
         //get_price_data_on_date(latestDate);
         $('#txtLatestDate').text(latestDate);
         $('#txtConfHeight').text(latestTransaction.height);
@@ -236,7 +236,8 @@ function updateTable(page) {
     var endIndex = startIndex + _itemsPerPage;
 
     _transactionHistory.history.slice(startIndex, endIndex).forEach(transaction => {
-        var formattedBalance = (transaction.amount / 1e30).toFixed(NANO_DECIMAL);
+        var ufbalance = (transaction.amount / 1e30).toFixed(NANO_DECIMAL);
+        var formattedBalance = Number(ufbalance).toLocaleString();
         var readableDate = convert_timestamp_to_date(transaction.local_timestamp);
         var acctLink = '<a href="https://nanolooker.com/account/' + transaction.account + '" target="_blank">' + transaction.account + '</a>';
         var transType = '';
