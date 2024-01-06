@@ -1,6 +1,6 @@
 var _usdPrice = 1.15
 var _transactionHistory
-var _itemsPerPage = 15;
+var _itemsPerPage = 50;
 var _currentPage = 1;
 
 function btnSearch_Press() {
@@ -121,7 +121,7 @@ function get_address_data() {
     }
     RPC_SERVER = 'https://node.somenano.com/proxy';
     REQUEST_TIMEOUT = 10 * 1000; // 10 seconds
-    HISTORY_COUNT = 10000;
+    HISTORY_COUNT = 1000;
     TABLE_COUNT = 10;
     NANO_DECIMAL = 6;
     FIATPRICE = $('#fiatPrice').text();

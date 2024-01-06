@@ -13,19 +13,20 @@
 
 #pagination {
     text-align:center;
+    padding-top:.5em
 }
 
     #pagination span {
-        padding:.25em;
-        margin:.5em
+        padding:.2em;
+        margin:.25em
     }
     #pagination span:hover {
         cursor: pointer;
     }
     #pagination p {
         display: inline;
-        padding: .25em;
-        margin: .5em;
+        padding: .2em;
+        margin: .25em;
         color:white;
     }
 
@@ -90,9 +91,26 @@ input:-webkit-autofill:active {
         max-width: 100px;
     }
 
+    #pagination {
+        font-size:.9em;
+    }
+
+    #pagination span {
+        padding: .1em;
+        margin: .15em
+    }
+
+    #pagination p {
+        padding: .1em;
+        margin: .15em;
+    }
+
 }
 
 @media screen and (max-width: 400px) {
+    #pagination {
+        font-size: .8em !important;
+    }
     .btn-main {
         right: .5rem !important;
     }
