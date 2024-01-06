@@ -76,16 +76,16 @@ input:-webkit-autofill:active {
 
 @media screen and (max-width: 736px) {
     .btn-main {
-        top: .4em !important
+        top: .75em !important
     }
 
     .inpt-main {
-        top: .4em !important;
+        top: .75em !important;
         max-width: 150px;
     }
 
     .drpdwn-main {
-        top: .4em !important;
+        top: .75em !important;
         right: 180px;
         max-width: 100px;
     }
@@ -94,19 +94,15 @@ input:-webkit-autofill:active {
 
 @media screen and (max-width: 400px) {
     .btn-main {
-        top: .4em !important;
         right: .5rem !important;
     }
 
     .inpt-main {
-        top: .4em !important;
         max-width: 110px;
         right: .5rem;
     }
 
     .drpdwn-main {
-        top: .4em !important;
         right: 125px;
-        max-width: 100px;
     }
 }

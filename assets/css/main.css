@@ -3830,10 +3830,10 @@ input, select, textarea {
 			}
 
 		/* Header */
-
-			#header {
+			/*TODO: Uncomment*/
+			/*#header {
 				display: none;
-			}
+			}*/
 
 		/* Banner */
 
