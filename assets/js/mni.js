@@ -105,7 +105,6 @@ function get_price_data_on_date(date) {
         method: 'GET',
         success: function (data) {
             console.log(data.market_data.current_price.usd);
-            //$('#txtLatestAmountFiat').text(FIATSYMBOL + latestAmountFiat.toFixed(2));
         },
         error: function (error) {
             console.log(error);
@@ -120,7 +119,7 @@ function get_address_data() {
         return;
     }
     RPC_SERVER = 'https://node.somenano.com/proxy';
-    REQUEST_TIMEOUT = 10 * 1000; // 10 seconds
+    REQUEST_TIMEOUT = 10 * 1000;
     HISTORY_COUNT = 1000;
     TABLE_COUNT = 10;
     NANO_DECIMAL = 6;
@@ -215,12 +214,10 @@ function get_address_data() {
         $('#txtLatestAccount').append(latestAcct);
         $('#txtLatestAmountNano').text("\u04FE" + Number(latestAmountNano).toLocaleString());
         $('#txtLatestAmountFiat').text(FIATSYMBOL + Number(latestAmountFiat.toFixed(2)).toLocaleString());
-        //get_price_data_on_date(latestDate);
         $('#txtLatestDate').text(latestDate);
         $('#txtConfHeight').text(latestTransaction.height);
 
 
-        // Initial setup
         updateTable(_currentPage);
         updatePagination();
   
