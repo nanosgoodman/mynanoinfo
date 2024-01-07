@@ -7,8 +7,8 @@
 }*/
 
 .name-value div span:last-child {
-    font-weight: 600;
-    margin-bottom:.25rem;
+    font-weight: 500;
+    color:white;
 }
 
 #pagination {
