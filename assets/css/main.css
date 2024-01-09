@@ -2760,6 +2760,10 @@ input, select, textarea {
 		overflow-x: auto;
 	}
 
+		.table-wrapper a {
+			font-weight:300;
+		}
+
 	table {
 		margin: 0 0 2em 0;
 		width: 100%;
@@ -3400,7 +3404,7 @@ input, select, textarea {
 
 		#header nav {
 			position: absolute;
-			right: 1em;
+			left: 0em;
 			top: 0;
 		}
 
@@ -3830,10 +3834,10 @@ input, select, textarea {
 			}
 
 		/* Header */
-			/*TODO: Uncomment*/
-			/*#header {
+			
+			#header {
 				display: none;
-			}*/
+			}
 
 		/* Banner */
 

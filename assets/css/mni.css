@@ -73,16 +73,16 @@ input:-webkit-autofill:active {
 
 @media screen and (max-width: 736px) {
     .btn-main {
-        top: .75em !important
+        top: .35em !important
     }
 
     .inpt-main {
-        top: .75em !important;
+        top: .35em !important;
         max-width: 150px;
     }
 
     .drpdwn-main {
-        top: .75em !important;
+        top: .35em !important;
         right: 180px;
         max-width: 100px;
     }

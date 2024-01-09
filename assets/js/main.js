@@ -40,30 +40,39 @@
 		});
 
 	// Nav.
-	/*TODO: Uncomment*/
-		// Title Bar.
-			//$(
-			//	'<div id="titleBar">' +
-			//		'<h1 id="logo"><a href="index.html">M<span style="color: #209ce9">N</span>I</a></h1>' +
-			//		'<select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value)">' +
-			//			'<option value="USD">USD</option> ' +
-			//			'<option value="EUR">EUR</option> ' +
-			//			'<option value="CAD">CAD</option> ' +
-			//			'<option value="GBP">GBP</option> ' +				
-			//			'<option value="CNY">CNY</option> ' +
-			//			'<option value="JPY">JPY</option> ' +
-			//			'<option value="BTC">BTC</option> ' +
-			//		'</select > ' +
-			//		'<form id="formSearch">' +
-			//			'<input class="inpt-main" type="text" name="address" id="inptSearch" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" />' +
-			//			'<span class="btn-main" id="btnSearch" onclick="btnSearch_Press()">' +
-			//				'<input type="button" />' +
-			//				'<i class="fa fa-search"></i>' +
-			//			'</span> ' +
-			//		'</form>' +
-			//	'</div>'
-			//)
-			//	.appendTo($body);
+
+	// Title Bar.
+	var href = document.location.href;
+	var lastPathSegment = href.substr(href.lastIndexOf('/') + 1);
+	if (lastPathSegment == 'index.html') {
+		$(
+			'<div id="titleBar">' +
+				'<a href="#navPanel" class="toggle"></a >' +
+				'<select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value)">' +
+					'<option value="USD">USD</option> ' +
+					'<option value="EUR">EUR</option> ' +
+					'<option value="CAD">CAD</option> ' +
+					'<option value="GBP">GBP</option> ' +
+					'<option value="CNY">CNY</option> ' +
+					'<option value="JPY">JPY</option> ' +
+					'<option value="BTC">BTC</option> ' +
+				'</select> ' +
+				'<form id="formSearch">' +
+					'<input class="inpt-main" type="text" name="address" id="inptSearch" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" />' +
+					'<button type="button" class="btn-main" id="btnSearch" onclick="btnSearch_Press()"><i class="fa fa-search"></i></button>' +
+				'</form>' +
+			'</div>'
+		)
+			.appendTo($body);
+	} else {
+		$(
+			'<div id="titleBar">' +
+				'<a href="#navPanel" class="toggle"></a >' +
+			'</div>'
+		)
+			.appendTo($body);
+	}
+			
 
 		// Panel.
 			$(
