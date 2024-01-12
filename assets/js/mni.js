@@ -1,4 +1,4 @@
-var _usdPrice = 1.11
+var _usdPrice = 1.15
 var _transactionHistory
 var _itemsPerPage = 50;
 var _currentPage = 1;

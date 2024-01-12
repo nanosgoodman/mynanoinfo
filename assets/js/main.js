@@ -44,8 +44,7 @@
 	// Title Bar.
 	var href = document.location.href;
 	var lastPathSegment = href.substr(href.lastIndexOf('/') + 1);
-	console.log(lastPathSegment);
-	if (lastPathSegment == 'index.html') {
+	if (lastPathSegment == 'index.html' || lastPathSegment == '') {
 		$(
 			'<div id="titleBar">' +
 				'<a href="#navPanel" class="toggle"></a >' +
