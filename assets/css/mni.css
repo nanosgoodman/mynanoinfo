@@ -2,6 +2,10 @@
     margin-bottom: 7.5rem;
 }
 
+.mrg-btm-small {
+    margin-bottom: .25rem !important;
+}
+
 .name-value div span:last-child {
     font-weight: 500;
     color:white;
@@ -69,6 +73,10 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
     -webkit-text-fill-color: white !important;
+}
+
+.alt-header-color {
+    color:#209ce9;
 }
 
 @media screen and (max-width: 736px) {
