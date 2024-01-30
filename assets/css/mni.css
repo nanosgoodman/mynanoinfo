@@ -83,6 +83,10 @@ input:-webkit-autofill:active {
     line-break: anywhere;
 }
 
+#count {
+    font-weight:500;
+}
+
 @media screen and (max-width: 736px) {
     .btn-main {
         top: .35em !important
