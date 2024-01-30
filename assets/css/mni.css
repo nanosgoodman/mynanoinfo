@@ -79,6 +79,10 @@ input:-webkit-autofill:active {
     color:#209ce9;
 }
 
+.supportNanoTable tr td:first-child {
+    line-break: anywhere;
+}
+
 @media screen and (max-width: 736px) {
     .btn-main {
         top: .35em !important
