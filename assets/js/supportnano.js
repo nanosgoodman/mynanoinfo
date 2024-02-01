@@ -1,3 +1,4 @@
+/// NANO RPC ///
 RPC_SERVER = 'https://nanoslo.0x.no/proxy';
 REQUEST_TIMEOUT = 10 * 1000;
 TABLEBODY_ELEMENT = $('#tableBody');
@@ -67,7 +68,10 @@ async function find_reps() {
         }
     );
 }
+/// NANO RPC ///
 
+
+/// QR CODES ///
 function toggle_protocol_qr() {
     if (PROTOCOL_HDN == true) {
         PROTOCOL_HDN = false;
@@ -104,9 +108,6 @@ function toggle_rep_qr() {
     }
 }
 
-
-
-
 function set_qr_codes() {
     PROTOCOL_HDN = true;
     COMMUNITY_HDN = true;
@@ -139,10 +140,12 @@ function set_qr_codes() {
     $('#repQR').hide();
 }
 
+/// QR CODES ///
+
+
+/// ON DOM LOAD ///
+
 $(function () {
     set_qr_codes();
     find_reps();
-    //$('#protocolBtn').on("click", toggle_protocol_qr());
-    //$('#communityBtn').on('click', toggle_community_qr());
-    //$('#repBtn').on('click', toggle_rep_qr());
 });
