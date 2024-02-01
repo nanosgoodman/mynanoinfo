@@ -1,5 +1,5 @@
 RPC_SERVER = 'https://nanoslo.0x.no/proxy';
-REQUEST_TIMEOUT = 10 * 1000;	// 10 seconds
+REQUEST_TIMEOUT = 10 * 1000;
 TABLEBODY_ELEMENT = $('#tableBody');
 
 function post(url, params) {
@@ -30,7 +30,7 @@ function post(url, params) {
     });
 }
 
-async function RUN_find_online_reps() {
+async function find_representatives_online() {
     var list = await representatives_online();
     return list.representatives;
 }
@@ -42,8 +42,8 @@ function representatives_online() {
     return post(RPC_SERVER, input);
 }
 
-async function RUN_distribute() {
-    var destination_addresses = await RUN_find_online_reps()
+async function find_reps() {
+    var destination_addresses = await find_representatives_online()
     await $.when($.get('assets/txt/excluded_addresses.txt')).then(
         // Success callback
         function (data) {
@@ -68,7 +68,81 @@ async function RUN_distribute() {
     );
 }
 
+function toggle_protocol_qr() {
+    if (PROTOCOL_HDN == true) {
+        PROTOCOL_HDN = false;
+        $('#protocolQR').show();
+        $('#protocolBtn').val('Hide QR');
+    } else {
+        PROTOCOL_HDN = true;
+        $('#protocolQR').hide();
+        $('#protocolBtn').val('Show QR');
+    }
+}
+
+function toggle_community_qr() {
+    if (COMMUNITY_HDN == true) {
+        COMMUNITY_HDN = false;
+        $('#communityQR').show();
+        $('#communityBtn').val('Hide QR');
+    } else {
+        COMMUNITY_HDN = true;
+        $('#communityQR').hide();
+        $('#communityBtn').val('Show QR');
+    }
+}
+
+function toggle_rep_qr() {
+    if (REP_HDN == true) {
+        REP_HDN = false;
+        $('#repQR').show();
+        $('#repBtn').val('Hide QR');
+    } else {
+        REP_HDN = true;
+        $('#repQR').hide();
+        $('#repBtn').val('Show QR');
+    }
+}
+
+
+
+
+function set_qr_codes() {
+    PROTOCOL_HDN = true;
+    COMMUNITY_HDN = true;
+    REP_HDN = true;
+    QR_SIZE = '150';
+
+    $('#protocolQR a').qrcode({
+        render: 'image',
+        text: "nano_3fundme3zgwcezey4wo1auae1o16yjds7gw8f9bpke4hrzks966i5qpkycxw",
+        ecLevel: 'L',
+        size: QR_SIZE
+    });
+
+    $('#communityQR a').qrcode({
+        render: 'image',
+        text: "nano_1yap96nsw6jmotwfp913i6tgj1ky4hq8sntr8j7k1fatx8x319q44ft7e5r3",
+        ecLevel: 'L',
+        size: QR_SIZE
+    });
+
+    $('#repQR a').qrcode({
+        render: 'image',
+        text: "nano_3tipkghx86us41os5e1e15ywokynye4ekodd9b57bdy9jkrnghfskqt78m18",
+        ecLevel: 'L',
+        size: QR_SIZE
+    });
+
+    $('#protocolQR').hide();
+    $('#communityQR').hide();
+    $('#repQR').hide();
+}
+
 $(function () {
-    RUN_distribute();
-    
+    set_qr_codes();
+    find_reps();
+    //$('#protocolBtn').on("click", toggle_protocol_qr());
+    //$('#communityBtn').on('click', toggle_community_qr());
+    //$('#repBtn').on('click', toggle_rep_qr());
 });
