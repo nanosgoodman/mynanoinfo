@@ -178,6 +178,7 @@ function get_address_data() {
         var acctLink = '<a href="https://nanolooker.com/account/' + address + '" target="_blank">' + address + '</a>';
         $('#txtAddress').empty();
         $('#txtAddress').append(acctLink);
+        set_qr(address);
         var formattedBalance = (ret.balance / 1e30).toFixed(NANO_DECIMAL);
         var fiatBalance = formattedBalance * FIATPRICE;
         $('#txtBalanceNano').text("\u04FE" + Number(formattedBalance).toLocaleString() + " (" + FIATSYMBOL + Number(fiatBalance.toFixed(2)).toLocaleString() + ")");
@@ -278,7 +279,20 @@ function changePage(page) {
     updatePagination();
 }
 
+function set_qr(address) {
+    $('#addressQR a').qrcode({
+        render: 'image',
+        text: address,
+        ecLevel: 'L',
+        size: '150'
+    });
+
+    $('#addressQR a').attr("href", "nano:" + address);
+
+}
+
 $(function () {
     get_query_string();
-    get_price_data($('#currency').val());  
+    get_price_data($('#currency').val());
+    
 });

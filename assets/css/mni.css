@@ -101,6 +101,12 @@ input:-webkit-autofill:active {
     padding:.25em;
 }
 
+#addressQR a img {
+    background-color: white;
+    padding: .25em;
+    margin:.75em 0;
+}
+
 
 /* Smaller Screens */
 
