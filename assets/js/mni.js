@@ -1,4 +1,4 @@
-var _usdPrice = 1.15
+var _usdPrice = 1.13
 var _transactionHistory
 var _itemsPerPage = 50;
 var _currentPage = 1;
@@ -284,7 +284,7 @@ function set_qr(address) {
         render: 'image',
         text: address,
         ecLevel: 'L',
-        size: '150'
+        size: '140'
     });
 
     $('#addressQR a').attr("href", "nano:" + address);
