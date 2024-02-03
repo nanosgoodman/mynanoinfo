@@ -94,7 +94,6 @@ input:-webkit-autofill:active {
 }
 
 .supportNanoTable tr td:first-child { line-break: anywhere; }
-.supportNanoTable tr td:last-child { text-align: center; }
 .supportNanoTable tr td:last-child input { margin-bottom:.5em; }
 .supportNanoTable tr td div a img {
     background-color:white;
