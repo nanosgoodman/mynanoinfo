@@ -146,6 +146,6 @@ function set_qr_codes() {
 /// ON DOM LOAD ///
 
 $(function () {
-    set_qr_codes();
-    find_reps();
+    ///set_qr_codes();
+    ///find_reps();
 });
