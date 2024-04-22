@@ -36,6 +36,15 @@
             </nav>
         </header>
 
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span onclick="close_modal()" class="button primary">Close</span>
+                <p id="modalQR"><a class="qrLink"></a></p>
+                <p id="modalAddress"></p>
+            </div>
+        </div>
+
         <!-- Main -->
         <div id="main" class="wrapper style1">
             <div class="container">
@@ -101,6 +110,7 @@
             </ul>
             <ul class="copyright">
                 <li>&copy; 2023. NanosGoodman</li>
+                <li>v1.0.3</li>
             </ul>
         </section>
 
@@ -116,6 +126,6 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-
+    <script src="assets/js/modal.js"></script>
 </body>
 </html>

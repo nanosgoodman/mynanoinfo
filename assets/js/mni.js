@@ -295,6 +295,7 @@ function set_qr(address) {
 
 }
 
+
 $(function () {
     get_query_string();
     get_price_data($('#currency').val());
