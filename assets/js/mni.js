@@ -119,7 +119,7 @@ function get_address_data() {
     if (address == null) {
         return;
     }
-    RPC_SERVER = 'https://nanoslo.0x.no/proxy'; /*'https://node.somenano.com/proxy';*/
+    RPC_SERVER = 'https://nanoslo.0x.no/proxy';
     REQUEST_TIMEOUT = 10 * 1000;
     HISTORY_COUNT = 1000;
     TABLE_COUNT = 10;
