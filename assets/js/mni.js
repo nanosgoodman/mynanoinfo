@@ -204,6 +204,7 @@ function get_address_data() {
         var latestAmountNano = (latestTransaction.amount / 1e30).toFixed(NANO_DECIMAL);
         var latestAmountFiat = latestAmountNano * FIATPRICE;
         var latestDate = convert_timestamp_to_date(latestTransaction.local_timestamp);
+        var latestHash = '<a href="https://blocklattice.io/block/' + latestTransaction.hash + '" target="_blank">' + latestTransaction.hash + '</a>';
         var latestAcct = '<a href="https://blocklattice.io/account/' + latestTransaction.account + '" target="_blank">' + latestTransaction.account + '</a>';
         var latestType = '';
         if (latestTransaction.type == 'send') {
@@ -214,8 +215,10 @@ function get_address_data() {
             latestType = '<b style="color:blue">' + latestTransaction.type + '</b>'
         }
         $('#txtLatestType').empty();
-        $('#txtLatestAccount').empty();
+        $('#txtHash').empty();
+        $('#txtLatestAccount').empty(); 
         $('#txtLatestType').append(latestType);
+        $('#txtHash').append(latestHash);
         $('#txtLatestAccount').append(latestAcct);
         $('#txtLatestAmountNano').text("\u04FE" + Number(latestAmountNano).toLocaleString());
         $('#txtLatestAmountFiat').text(FIATSYMBOL + Number(latestAmountFiat.toFixed(2)).toLocaleString());
@@ -242,7 +245,7 @@ function updateTable(page) {
         var ufAmt = (transaction.amount / 1e30).toFixed(NANO_DECIMAL);
         var formattedAmt = Number(ufAmt).toLocaleString();
         var ufBalance = (transaction.balance / 1e30).toFixed(NANO_DECIMAL);
-        var formattedBalance = Number(ufBalance).toLocaleString();
+        //var formattedBalance = Number(ufBalance).toLocaleString();
         var readableDate = convert_timestamp_to_date(transaction.local_timestamp);
         var acctLink = '<a href="https://blocklattice.io/account/' + transaction.account + '" target="_blank">' + transaction.account + '</a>';
         var transType = '';
@@ -253,7 +256,7 @@ function updateTable(page) {
         } else {
             transType = '<b style="color:blue">' + transaction.type + '</b>'
         }
-        var transactionRow = '<tr><td>' + readableDate + '</td><td>' + transType + '</td><td>' + acctLink + '</td><td>' + '\u04FE' + formattedAmt + '</td></tr>';
+        var transactionRow = '<tr><td><a href="https://blocklattice.io/block/' + transaction.hash + '" target="_blank">' + readableDate + '</a></td><td>' + transType + '</td><td>' + acctLink + '</td><td>' + '\u04FE' + formattedAmt + '</td></tr>';
         //<td>' + '\u04FE' + formattedBalance + '</td>
         $('#tblTransactions').append(transactionRow);
     });
