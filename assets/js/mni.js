@@ -37,28 +37,28 @@ function get_currency_symbol(currency) {
 
     switch (currency) {
         case 'USD':
-            return '$'
+            return '\u0024'
             break;
         case 'EUR':
             return '\u20AC'
             break;
         case 'CAD':
-            return '$'
+            return '\u0024'
             break;
         case 'GBP':
             return '\u00A3'
             break;
         case 'CNY':
-            return '\u00A3'
+            return '\u00A5'
             break;
         case 'JPY':
-            return '\u00A3'
+            return '\u00A5'
             break;
         case 'BTC':
             return '\u20BF'
             break;
         default:
-            return '$'
+            return '\u0024'
             break;
     }
 }
