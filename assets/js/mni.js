@@ -176,7 +176,7 @@ function get_address_data() {
 
     async function get_account_balance(address) {
         let ret = await account_balance(address);
-        var acctLink = '<a href="https://nanolooker.com/account/' + address + '" target="_blank">' + address + '</a>';
+        var acctLink = '<a href="https://blocklattice.io/account/' + address + '" target="_blank">' + address + '</a>';
         $('#txtAddress').empty();
         $('#txtAddress').append(acctLink);
         if (_currentAddress != address) {
@@ -204,7 +204,7 @@ function get_address_data() {
         var latestAmountNano = (latestTransaction.amount / 1e30).toFixed(NANO_DECIMAL);
         var latestAmountFiat = latestAmountNano * FIATPRICE;
         var latestDate = convert_timestamp_to_date(latestTransaction.local_timestamp);
-        var latestAcct = '<a href="https://nanolooker.com/account/' + latestTransaction.account + '" target="_blank">' + latestTransaction.account + '</a>';
+        var latestAcct = '<a href="https://blocklattice.io/account/' + latestTransaction.account + '" target="_blank">' + latestTransaction.account + '</a>';
         var latestType = '';
         if (latestTransaction.type == 'send') {
             latestType = '<b style="color:#e04576">' + latestTransaction.type + '</b>'
@@ -223,6 +223,7 @@ function get_address_data() {
         $('#txtConfHeight').text(latestTransaction.height);
 
 
+
         updateTable(_currentPage);
         updatePagination();
   
@@ -238,10 +239,12 @@ function updateTable(page) {
     var endIndex = startIndex + _itemsPerPage;
 
     _transactionHistory.history.slice(startIndex, endIndex).forEach(transaction => {
-        var ufbalance = (transaction.amount / 1e30).toFixed(NANO_DECIMAL);
-        var formattedBalance = Number(ufbalance).toLocaleString();
+        var ufAmt = (transaction.amount / 1e30).toFixed(NANO_DECIMAL);
+        var formattedAmt = Number(ufAmt).toLocaleString();
+        var ufBalance = (transaction.balance / 1e30).toFixed(NANO_DECIMAL);
+        var formattedBalance = Number(ufBalance).toLocaleString();
         var readableDate = convert_timestamp_to_date(transaction.local_timestamp);
-        var acctLink = '<a href="https://nanolooker.com/account/' + transaction.account + '" target="_blank">' + transaction.account + '</a>';
+        var acctLink = '<a href="https://blocklattice.io/account/' + transaction.account + '" target="_blank">' + transaction.account + '</a>';
         var transType = '';
         if (transaction.type == 'send') {
             transType = '<b style="color:#e04576">' + transaction.type + '</b>'
@@ -250,7 +253,8 @@ function updateTable(page) {
         } else {
             transType = '<b style="color:blue">' + transaction.type + '</b>'
         }
-        var transactionRow = '<tr><td>' + readableDate + '</td><td>' + transType + '</td><td>' + acctLink + '</td><td>' + '\u04FE' + formattedBalance + '</td></tr>';
+        var transactionRow = '<tr><td>' + readableDate + '</td><td>' + transType + '</td><td>' + acctLink + '</td><td>' + '\u04FE' + formattedAmt + '</td></tr>';
+        //<td>' + '\u04FE' + formattedBalance + '</td>
         $('#tblTransactions').append(transactionRow);
     });
 }
