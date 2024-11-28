@@ -57,8 +57,8 @@ async function find_reps() {
             var count = 0;
             for (let destination_address of destination_addresses) {
                 count += 1;
-                let link = 'https://nanolooker.com/account/' + destination_address
-                TABLEBODY_ELEMENT.append('<tr><td><a href="https://nanolooker.com/account/' + destination_address + '">' + destination_address + '</a></td></tr>');
+                let link = 'https://blocklattice.io/account/' + destination_address
+                TABLEBODY_ELEMENT.append('<tr><td><a href="https://blocklattice.io/account/' + destination_address + '">' + destination_address + '</a></td></tr>');
             }
             $("#count").append(count);
         },
