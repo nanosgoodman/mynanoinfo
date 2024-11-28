@@ -174,9 +174,17 @@ function get_address_data() {
         return post(RPC_SERVER, input);
     }
 
+    function account_representative(address) {
+        input = {
+            action: 'account_representative',
+            account: address
+        }
+        return post(RPC_SERVER, input);
+    }
+
     async function get_account_balance(address) {
         let ret = await account_balance(address);
-        var acctLink = '<a href="https://blocklattice.io/account/' + address + '" target="_blank">' + address + '</a>';
+        var acctLink = 'Account: <a href="https://blocklattice.io/account/' + address + '" target="_blank">' + address + '</a>';
         $('#txtAddress').empty();
         $('#txtAddress').append(acctLink);
         if (_currentAddress != address) {
@@ -190,6 +198,7 @@ function get_address_data() {
 
     async function get_account_history(address) {
         let ret = await account_history(address);
+        let retRep = await account_representative(address);
         _transactionHistory = ret;
 
         //First Transaction
@@ -197,6 +206,8 @@ function get_address_data() {
         var readableCreatedDate = convert_timestamp_to_date(firstTransaction.local_timestamp);
         $('#txtDateCreated').empty();
         $('#txtDateCreated').append('Created: ' + readableCreatedDate);
+        $('#txtRep').empty();
+        $('#txtRep').append('Representative: <a href="https://blocklattice.io/account/' + retRep.representative + '" target="_blank">' + retRep.representative + '</a>');
         $('#tblTransactions').empty();
 
         //Latest Transaction
@@ -291,6 +302,7 @@ function changePage(page) {
 }
 
 function set_qr(address) {
+    $('#addressQR a').empty()
     $('#addressQR a').qrcode({
         render: 'image',
         text: address,
