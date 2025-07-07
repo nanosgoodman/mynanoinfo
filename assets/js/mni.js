@@ -3,18 +3,48 @@ var _transactionHistory
 var _itemsPerPage = 50;
 var _currentPage = 1;
 var _currentAddress = '';
+const ACCOUNT_LINK = '/?address=';
+const DEFAULT_CURRENCY = 'USD';
 
-function btnSearch_Press() {
-    var address = $('#inptSearch').val();
-    if ($("#formSearch")[0].checkValidity()) {
-        localStorage.setItem('address', address);
-        get_address_data();
-    }
-    else {
-        $("#formSearch")[0].reportValidity();
-    }
+/* 
+   Helpers for currency persistence
+    */
+function get_saved_currency() {
+    return localStorage.getItem('currency') || DEFAULT_CURRENCY;
 }
 
+function save_currency(currency) {
+    localStorage.setItem('currency', currency);
+}
+
+/* set both selects if they exist (desktop + mobile) */
+function sync_currency_selects(currency) {
+    $('#currency').val(currency);
+    $('#currencyMobile').val(currency);
+}
+
+/* origin must be the string 'desktop' or 'mobile' */
+function btnSearch_Press(origin) {
+
+    // Pick the right elements
+    const formId = origin === 'mobile' ? '#formSearchMobile' : '#formSearch';
+    const inputId = origin === 'mobile' ? '#inptSearchMobile' : '#inptSearch';
+
+    const address = $(inputId).val().trim();
+
+    // Native HTML-5 validation
+    if ($(formId)[0].checkValidity()) {
+        localStorage.setItem('address', address);
+        get_address_data();
+
+        $(inputId).val('');        
+        $(inputId).blur();         
+
+    } else {
+        // Show the built-in validation message
+        $(formId)[0].reportValidity();
+    }
+}
 function log_error(err) {
     $('#errLog').text(err);
 }
@@ -64,32 +94,76 @@ function get_currency_symbol(currency) {
 }
 
 
-function get_price_data(currency) {
-    const apiUrl = 'https://api.coingecko.com/api/v3/coins/markets';
-    const vsCurrency = currency;
-    const currencySymbol = get_currency_symbol(currency)
-    const coinIds = 'nano';
-    const url = `${apiUrl}?vs_currency=${vsCurrency}&ids=${coinIds}`;
+/* ------------------------------------------------------------------
+   Retrieve Nano price in the requested fiat, update both <select>s,
+   update the price banner, then refresh the address data.
+   origin must be the string 'desktop' or 'mobile'.
+-------------------------------------------------------------------*/
+function get_price_data(currency, origin) {
 
+    /* 1.  Helper references
+    ---------------------------------------------------------------*/
+    const $desktopSelect = $('#currency');        // id in <header>
+    const $mobileSelect = $('#currencyMobile');  // id in the slide-out bar
+
+    /* 2.  Disable both selects while we are fetching data
+    ---------------------------------------------------------------*/
+    $desktopSelect.prop('disabled', true);
+    $mobileSelect.prop('disabled', true);
+
+    /* 3.  Build request url
+    ---------------------------------------------------------------*/
+    const apiUrl = 'https://api.coingecko.com/api/v3/coins/markets';
+    const coinIds = 'nano';
+    const url = `${apiUrl}?vs_currency=${currency}&ids=${coinIds}`;
+
+    /* 4.  Ajax call
+    ---------------------------------------------------------------*/
     $.ajax({
         url: url,
         method: 'GET',
+
         success: function (data) {
-            $('#currency').removeAttr('disabled');
-            if (data[0].current_price == null) {
-                $('#fiatPrice').text(_usdPrice);
-                $('#fiatSymbol').text("$");
-            } else {
-                $('#fiatPrice').text(data[0].current_price);
-                $('#fiatSymbol').text(currencySymbol);
-            }
-                
+
+            // a. Re-enable the selects
+            $desktopSelect.prop('disabled', false);
+            $mobileSelect.prop('disabled', false);
+
+            // b. Extract price or fall back to the cached USD price
+            const price = data[0] && data[0].current_price != null
+                ? data[0].current_price
+                : _usdPrice;
+
+            // c. Write price and symbol into the banner
+            $('#fiatPrice').text(price);
+            $('#fiatSymbol').text(get_currency_symbol(currency));
+
+            /* store choice and be sure both selects show it */
+            save_currency(currency);
+            sync_currency_selects(currency);
+
+            /* d. Keep both <select>s in sync.
+                  If the user used the mobile one, update the desktop one
+                  and vice-versa.             */
+            //if (origin === 'desktop') $mobileSelect.val(currency);
+            //if (origin === 'mobile') $desktopSelect.val(currency);
+
+            // e. Write to localstorage
+            //localStorage.setItem('currency', currency);
+
+            // f. Refresh the address display (if an address is loaded)
             get_address_data();
         },
-        error: function (error) {
-            $('#currency').attr('disabled', 'disabled');
+
+        error: function () {
+
+            // a. Keep the selects disabled to indicate the problem
+            //$desktopSelect.prop('disabled', true);
+            //$mobileSelect.prop('disabled', true);
+
+            // b. Show cached USD fallback
             $('#fiatPrice').text(_usdPrice);
-            $('#fiatSymbol').text("$");
+            $('#fiatSymbol').text('$');
         }
     });
 }
@@ -184,7 +258,7 @@ function get_address_data() {
 
     async function get_account_balance(address) {
         let ret = await account_balance(address);
-        var acctLink = 'Account: <a href="https://blocklattice.io/account/' + address + '" target="_blank">' + address + '</a>';
+        var acctLink = 'Account: <a href="' + ACCOUNT_LINK + address + '">' + address + '</a>';
         $('#txtAddress').empty();
         $('#txtAddress').append(acctLink);
         if (_currentAddress != address) {
@@ -207,7 +281,7 @@ function get_address_data() {
         $('#txtDateCreated').empty();
         $('#txtDateCreated').append('Created: ' + readableCreatedDate);
         $('#txtRep').empty();
-        $('#txtRep').append('Representative: <a href="https://blocklattice.io/account/' + retRep.representative + '" target="_blank">' + retRep.representative + '</a>');
+        $('#txtRep').append('Representative: <a href="' + ACCOUNT_LINK + retRep.representative + '">' + retRep.representative + '</a>');
         $('#tblTransactions').empty();
 
         //Latest Transaction
@@ -216,7 +290,7 @@ function get_address_data() {
         var latestAmountFiat = latestAmountNano * FIATPRICE;
         var latestDate = convert_timestamp_to_date(latestTransaction.local_timestamp);
         var latestHash = '<a href="https://blocklattice.io/block/' + latestTransaction.hash + '" target="_blank">' + latestTransaction.hash + '</a>';
-        var latestAcct = '<a href="https://blocklattice.io/account/' + latestTransaction.account + '" target="_blank">' + latestTransaction.account + '</a>';
+        var latestAcct = '<a href="' + ACCOUNT_LINK + latestTransaction.account + '">' + latestTransaction.account + '</a>';
         var latestType = '';
         if (latestTransaction.type == 'send') {
             latestType = '<b style="color:#e04576">' + latestTransaction.type + '</b>'
@@ -258,7 +332,7 @@ function updateTable(page) {
         var ufBalance = (transaction.balance / 1e30).toFixed(NANO_DECIMAL);
         //var formattedBalance = Number(ufBalance).toLocaleString();
         var readableDate = convert_timestamp_to_date(transaction.local_timestamp);
-        var acctLink = '<a href="https://blocklattice.io/account/' + transaction.account + '" target="_blank">' + transaction.account + '</a>';
+        var acctLink = '<a href="' + ACCOUNT_LINK + transaction.account + '">' + transaction.account + '</a>';
         var transType = '';
         if (transaction.type == 'send') {
             transType = '<b style="color:#e04576">' + transaction.type + '</b>'
@@ -314,9 +388,16 @@ function set_qr(address) {
 
 }
 
-
+/*
+   Init
+   */
 $(function () {
     get_query_string();
-    get_price_data($('#currency').val());
+
+    /* restore last currency or fallback to USD */
+    const startCurrency = get_saved_currency();
+    sync_currency_selects(startCurrency);
+
+    get_price_data(startCurrency);
     
 });

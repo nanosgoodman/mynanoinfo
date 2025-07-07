@@ -2,6 +2,7 @@
 RPC_SERVER = 'https://nanoslo.0x.no/proxy';
 REQUEST_TIMEOUT = 10 * 1000;
 TABLEBODY_ELEMENT = $('#tableBody');
+ACCOUNT_LINK = '/?address=';
 
 function post(url, params) {
 
@@ -57,8 +58,8 @@ async function find_reps() {
             var count = 0;
             for (let destination_address of destination_addresses) {
                 count += 1;
-                let link = 'https://blocklattice.io/account/' + destination_address
-                TABLEBODY_ELEMENT.append('<tr><td><a href="https://blocklattice.io/account/' + destination_address + '">' + destination_address + '</a></td></tr>');
+                let link = ACCOUNT_LINK + destination_address
+                TABLEBODY_ELEMENT.append('<tr><td><a href="' + ACCOUNT_LINK + destination_address + '">' + destination_address + '</a></td></tr>');
             }
             $("#count").append(count);
         },
