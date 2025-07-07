@@ -43,12 +43,14 @@
 
 	// Title Bar.
 	var href = document.location.href;
-	var lastPathSegment = href.substr(href.lastIndexOf('/') + 1);
+	var lastPathSegment = href.substr(href.lastIndexOf('/') + 1)
+		.split('?')[0]      // cut off ?query
+		.split('#')[0];     // cut off #hash (just in case)
 	if (lastPathSegment == 'index.html' || lastPathSegment == '') {
 		$(
 			'<div id="titleBar">' +
 				'<a href="#navPanel" class="toggle"></a >' +
-				'<select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value)">' +
+			'<select name="currency" id="currencyMobile" class="drpdwn-main" onchange="get_price_data(this.value,\'mobile\')">' +
 					'<option value="USD">USD</option> ' +
 					'<option value="EUR">EUR</option> ' +
 					'<option value="CAD">CAD</option> ' +
@@ -57,9 +59,9 @@
 					'<option value="JPY">JPY</option> ' +
 					'<option value="BTC">BTC</option> ' +
 				'</select> ' +
-				'<form id="formSearch">' +
-					'<input class="inpt-main" type="text" name="address" id="inptSearch" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" />' +
-					'<button type="button" class="btn-main" id="btnSearch" onclick="btnSearch_Press()"><i class="fa fa-search"></i></button>' +
+				'<form id="formSearchMobile">' +
+					'<input class="inpt-main" type="text" name="address" id="inptSearchMobile" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" autocomplete="off" />' +
+					'<button type="button" class="btn-main" id="btnSearchMobile" onclick="btnSearch_Press(\'mobile\')"><i class="fa fa-search"></i></button>' +
 				'</form>' +
 			'</div>'
 		)

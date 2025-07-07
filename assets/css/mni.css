@@ -186,6 +186,45 @@ input:-webkit-autofill:active {
 
 }
 
+/*  copy-address button */
+.copy-btn {
+    border: none;
+    background: none;
+    color: inherit;
+    margin-left: .35em;
+    font-size: 0.9em; /* slightly smaller than text */
+    vertical-align: middle;
+    cursor: pointer;
+    opacity: .75;
+    transition: opacity .2s;
+}
+
+    .copy-btn:hover {
+        opacity: 1;
+        color: #209ce9;
+    }
+
+    .copy-btn:focus {
+        outline: none;
+    }
+
+/*  tiny toast  */
+#copyToast {
+    position: fixed;
+    left: 50%;
+    bottom: 2.5rem;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,.8);
+    color: #fff;
+    padding: .4em 1.2em;
+    border-radius: 4px;
+    font-size: .9em;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity .3s;
+    pointer-events: none;
+}
+
 
 @media screen and (max-width: 400px) {
     #pagination {

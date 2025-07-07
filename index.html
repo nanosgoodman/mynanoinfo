@@ -34,7 +34,7 @@
                     <li><a href="supportnano.html">Support Nano</a></li>
                 </ul>
             </nav>
-            <select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value)">
+            <select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value,'desktop')">
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
                 <option value="CAD">CAD</option>
@@ -44,8 +44,8 @@
                 <option value="BTC">BTC</option>
             </select>
             <form id="formSearch">
-                <input class="inpt-main" type="text" name="address" id="inptSearch" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" />
-                <button type="button" class="btn-main" id="btnSearch" onclick="btnSearch_Press()"><i class="fa fa-search"></i></button>
+                <input class="inpt-main" type="text" name="address" id="inptSearch" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" autocomplete="off" />
+                <button type="button" class="btn-main" id="btnSearch" onclick="btnSearch_Press('desktop')"><i class="fa fa-search"></i></button>
             </form>
         </header>
         <h5 style="padding: 1.25rem 0 0 1.25rem;">Ӿ = <span id="fiatSymbol"></span><a href="https://www.coingecko.com/en/coins/nano"><span id="fiatPrice"></span></a></h5>
@@ -142,7 +142,7 @@
             </ul>
             <ul class="copyright">
                 <li>&copy; 2024. NanosGoodman</li>
-                <li>v1.0.5</li>
+                <li>v1.0.6</li>
             </ul>
         </section>
 
@@ -159,9 +159,10 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="/assets/js/mni.js"></script>
+    <script src="assets/js/mni.js"></script>
     <script src="assets/js/modal.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="assets/js/copyAddress.js"></script>
 
 
 </body>
