@@ -49,7 +49,8 @@
 	if (lastPathSegment == 'index.html' || lastPathSegment == '') {
 		$(
 			'<div id="titleBar">' +
-				'<a href="#navPanel" class="toggle"></a >' +
+			'<a href="#navPanel" class="toggle" aria-label="Open navigation menu"></a >' +
+			'<label class="sr-only" for="currencyMobile">Currency</label>' +
 			'<select name="currency" id="currencyMobile" class="drpdwn-main" onchange="get_price_data(this.value,\'mobile\')">' +
 					'<option value="USD">USD</option> ' +
 					'<option value="EUR">EUR</option> ' +
@@ -61,7 +62,7 @@
 				'</select> ' +
 				'<form id="formSearchMobile">' +
 					'<input class="inpt-main" type="text" name="address" id="inptSearchMobile" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" autocomplete="off" />' +
-					'<button type="button" class="btn-main" id="btnSearchMobile" onclick="btnSearch_Press(\'mobile\')"><i class="fa fa-search"></i></button>' +
+					'<button type="button" aria-label="Search address" class="btn-main" id="btnSearchMobile" onclick="btnSearch_Press(\'mobile\')"><i class="fa fa-search"></i></button>' +
 				'</form>' +
 			'</div>'
 		)

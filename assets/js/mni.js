@@ -5,10 +5,11 @@ var _currentPage = 1;
 var _currentAddress = '';
 const ACCOUNT_LINK = '/?address=';
 const DEFAULT_CURRENCY = 'USD';
+let autoTimer = null;
 
-/* 
-   Helpers for currency persistence
-    */
+
+
+/* Helpers for currency */
 function get_saved_currency() {
     return localStorage.getItem('currency') || DEFAULT_CURRENCY;
 }
@@ -138,30 +139,17 @@ function get_price_data(currency, origin) {
             $('#fiatPrice').text(price);
             $('#fiatSymbol').text(get_currency_symbol(currency));
 
-            /* store choice and be sure both selects show it */
+            // d. store choice and be sure both selects show it
             save_currency(currency);
             sync_currency_selects(currency);
 
-            /* d. Keep both <select>s in sync.
-                  If the user used the mobile one, update the desktop one
-                  and vice-versa.             */
-            //if (origin === 'desktop') $mobileSelect.val(currency);
-            //if (origin === 'mobile') $desktopSelect.val(currency);
-
-            // e. Write to localstorage
-            //localStorage.setItem('currency', currency);
-
-            // f. Refresh the address display (if an address is loaded)
+            // e. Refresh the address display (if an address is loaded)
             get_address_data();
         },
 
         error: function () {
 
-            // a. Keep the selects disabled to indicate the problem
-            //$desktopSelect.prop('disabled', true);
-            //$mobileSelect.prop('disabled', true);
-
-            // b. Show cached USD fallback
+            // a. Show cached USD fallback
             $('#fiatPrice').text(_usdPrice);
             $('#fiatSymbol').text('$');
         }
@@ -376,15 +364,26 @@ function changePage(page) {
 }
 
 function set_qr(address) {
-    $('#addressQR a').empty()
-    $('#addressQR a').qrcode({
+    const $link = $('#addressQR a').empty()
+    $link.empty()
+        .attr({
+            href: 'nano:' + address,
+            'aria-label': 'Open address in wallet'   // link name
+        });
+    $link.qrcode({
         render: 'image',
         text: address,
         ecLevel: 'L',
         size: '140'
     });
     
-    $('#addressQR a').attr("href", "nano:" + address);
+    $link.find('img')
+        .attr({
+            width: 140,
+            height: 140,
+            alt: 'QR code of Nano address'
+        })
+        .css('display', 'block');   // avoid inline gap
 
 }
 
@@ -399,5 +398,15 @@ $(function () {
     sync_currency_selects(startCurrency);
 
     get_price_data(startCurrency);
+
+    $('#autoRefreshChk').on('change', function () {
+        if (this.checked) {
+            autoTimer = setInterval(() => {
+                get_price_data($('#currency').val());
+            }, 60000);               // every 60 s (or 300 000 for 5 min)
+        } else {
+            clearInterval(autoTimer);
+        }
+    });
     
 });

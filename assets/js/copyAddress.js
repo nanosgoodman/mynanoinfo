@@ -18,8 +18,8 @@
     /* build button HTML on the fly because tooltip differs */
     function buttonHtml(t) {
         const title = t === 'hash' ? 'Copy hash' : 'Copy address';
-        return `<button class="copy-btn" title="${title}">
-                    <i class="fa fa-copy"></i>
+        return `<button class="copy-btn" title="${title}" aria-label="Copy to clipboard">
+                    <i class="fa fa-copy" aria-hidden="true"></i>
                 </button>`;
     }
 

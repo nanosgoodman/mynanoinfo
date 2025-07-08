@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
     <title>My Nano Info</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />  <!-- user-scalable=no (FOR ZOOM) -->
 
     <link rel="canonical" href="https://www.mynanoinfo.com">
 
@@ -34,6 +34,7 @@
                     <li><a href="supportnano.html">Support Nano</a></li>
                 </ul>
             </nav>
+            <label class="sr-only" for="currency">Currency</label>
             <select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value,'desktop')">
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
@@ -45,11 +46,14 @@
             </select>
             <form id="formSearch">
                 <input class="inpt-main" type="text" name="address" id="inptSearch" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" autocomplete="off" />
-                <button type="button" class="btn-main" id="btnSearch" onclick="btnSearch_Press('desktop')"><i class="fa fa-search"></i></button>
+                <button type="button" aria-label="Search address" class="btn-main" id="btnSearch" onclick="btnSearch_Press('desktop')"><i class="fa fa-search" aria-hidden="true"></i></button>
             </form>
         </header>
-        <h5 style="padding: 1.25rem 0 0 1.25rem;">Ӿ = <span id="fiatSymbol"></span><a href="https://www.coingecko.com/en/coins/nano"><span id="fiatPrice"></span></a></h5>
-
+        <h5 style="padding: 1.25rem 0 0 1.25rem; display:inline-block">Ӿ = <span id="fiatSymbol"></span><a href="https://www.coingecko.com/en/coins/nano"><span id="fiatPrice"></span></a></h5>
+        <div style="float:right; padding: 1.25rem 0 0 1.25rem;">
+            <input type="checkbox" id="autoRefreshChk">
+            <label for="autoRefreshChk" style="font-size:.9em">auto-refresh</label>
+        </div>
         <!-- Modal -->
         <div id="modal" class="modal">
             <div class="modal-content">
@@ -58,6 +62,7 @@
                 <p id="modalAddress"></p>
             </div>
         </div>
+
 
         <!-- Main -->
         <div id="main" class="wrapper style1 pt-2">
@@ -68,7 +73,7 @@
                     <p id="txtRep" class="mrg-btm-small mt-1" style="line-break: anywhere"></p>
                     <div id="addressQR"><a class="qrLink" href=""></a></div>
                     <h3 class="mrg-btm-small"><span id="txtBalanceNano"></span></h3>
-                    <h5 id="txtDateCreated" class="mrg-btm-small"></h5>
+                    <h4 id="txtDateCreated" class="mrg-btm-small"></h4>
 
                     <p id="errLog" class="mrg-btm-small"></p>
                 </header>
@@ -138,12 +143,13 @@
         <!-- Footer -->
         <section id="footer">
             <ul class="icons">
-                <li><a href="https://github.com/nanosgoodman/mynanoinfo" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+                <li><a href="https://github.com/nanosgoodman/mynanoinfo" class="icon brands alt fa-github" aria-label="Project on GitHub"><span class="label">GitHub</span></a></li>
             </ul>
             <ul class="copyright">
                 <li>&copy; 2024. NanosGoodman</li>
-                <li>v1.0.6</li>
+                <li>v1.0.7</li>
             </ul>
+
         </section>
 
     </div>
@@ -159,10 +165,10 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/mni.js"></script>
-    <script src="assets/js/modal.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="assets/js/copyAddress.js"></script>
+    <script src="assets/js/mni.js" defer></script>
+    <script src="assets/js/modal.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" defer></script>
+    <script src="assets/js/copyAddress.js" defer></script>
 
 
 </body>
