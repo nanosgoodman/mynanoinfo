@@ -1,6 +1,6 @@
 # My Nano Info
 
-A lightweight Nano account viewer that stores input-address in browser for easy return visits.
+A lightweight client-side Nano account viewer that stores input-address in browser for easy return visits.
 
 ## Supported Currency Conversions
 

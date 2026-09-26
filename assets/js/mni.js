@@ -24,22 +24,35 @@ function sync_currency_selects(currency) {
     $('#currencyMobile').val(currency);
 }
 
-/* origin must be the string 'desktop' or 'mobile' */
+/* Shows exactly one of the empty / loading / result panels */
+function show_state(state) {
+    $('#emptyState').prop('hidden', state !== 'empty');
+    $('#loadingState').prop('hidden', state !== 'loading');
+    $('#resultState').prop('hidden', state !== 'result');
+}
+
+/* origin must be the string 'desktop', 'mobile', or 'hero' */
 function btnSearch_Press(origin) {
 
     // Pick the right elements
-    const formId = origin === 'mobile' ? '#formSearchMobile' : '#formSearch';
-    const inputId = origin === 'mobile' ? '#inptSearchMobile' : '#inptSearch';
+    const originIds = {
+        desktop: { form: '#formSearch', input: '#inptSearch' },
+        mobile: { form: '#formSearchMobile', input: '#inptSearchMobile' },
+        hero: { form: '#formSearchHero', input: '#inptSearchHero' }
+    };
+    const { form: formId, input: inputId } = originIds[origin] || originIds.desktop;
 
     const address = $(inputId).val().trim();
 
     // Native HTML-5 validation
     if ($(formId)[0].checkValidity()) {
         localStorage.setItem('address', address);
+        $('#errLog').text('');
+        show_state('loading');
         get_address_data();
 
-        $(inputId).val('');        
-        $(inputId).blur();         
+        $(inputId).val('');
+        $(inputId).blur();
 
     } else {
         // Show the built-in validation message
@@ -48,6 +61,10 @@ function btnSearch_Press(origin) {
 }
 function log_error(err) {
     $('#errLog').text(err);
+}
+
+function convert_timestamp_to_relative(timestamp) {
+    return moment(timestamp * 1000).fromNow();
 }
 
 function convert_timestamp_to_date(timestamp) {
@@ -246,7 +263,7 @@ function get_address_data() {
 
     async function get_account_balance(address) {
         let ret = await account_balance(address);
-        var acctLink = 'Account: <a href="' + ACCOUNT_LINK + address + '">' + address + '</a>';
+        var acctLink = '<a href="' + ACCOUNT_LINK + address + '">' + address + '</a>';
         $('#txtAddress').empty();
         $('#txtAddress').append(acctLink);
         if (_currentAddress != address) {
@@ -267,9 +284,9 @@ function get_address_data() {
         var firstTransaction = ret.history[ret.history.length - 1];
         var readableCreatedDate = convert_timestamp_to_date(firstTransaction.local_timestamp);
         $('#txtDateCreated').empty();
-        $('#txtDateCreated').append('Created: ' + readableCreatedDate);
+        $('#txtDateCreated').append(readableCreatedDate);
         $('#txtRep').empty();
-        $('#txtRep').append('Representative: <a href="' + ACCOUNT_LINK + retRep.representative + '">' + retRep.representative + '</a>');
+        $('#txtRep').append('<a href="' + ACCOUNT_LINK + retRep.representative + '">' + retRep.representative + '</a>');
         $('#tblTransactions').empty();
 
         //Latest Transaction
@@ -279,17 +296,10 @@ function get_address_data() {
         var latestDate = convert_timestamp_to_date(latestTransaction.local_timestamp);
         var latestHash = '<a href="https://blocklattice.io/block/' + latestTransaction.hash + '" target="_blank">' + latestTransaction.hash + '</a>';
         var latestAcct = '<a href="' + ACCOUNT_LINK + latestTransaction.account + '">' + latestTransaction.account + '</a>';
-        var latestType = '';
-        if (latestTransaction.type == 'send') {
-            latestType = '<b style="color:#e04576">' + latestTransaction.type + '</b>'
-        } else if (latestTransaction.type == 'receive') {
-            latestType = '<b style="color:rgb(22, 199, 132)">' + latestTransaction.type + '</b>'
-        } else {
-            latestType = '<b style="color:blue">' + latestTransaction.type + '</b>'
-        }
+        var latestType = '<span class="type-pill ' + type_pill_class(latestTransaction.type) + '">' + latestTransaction.type + '</span>';
         $('#txtLatestType').empty();
         $('#txtHash').empty();
-        $('#txtLatestAccount').empty(); 
+        $('#txtLatestAccount').empty();
         $('#txtLatestType').append(latestType);
         $('#txtHash').append(latestHash);
         $('#txtLatestAccount').append(latestAcct);
@@ -302,11 +312,22 @@ function get_address_data() {
 
         updateTable(_currentPage);
         updatePagination();
-  
+
     }
 
-    get_account_balance(address);
-    get_account_history(address);
+    Promise.all([get_account_balance(address), get_account_history(address)])
+        .then(function () {
+            show_state('result');
+        })
+        .catch(function () {
+            show_state('empty');
+        });
+}
+
+function type_pill_class(type) {
+    if (type == 'send') return 'type-send';
+    if (type == 'receive') return 'type-receive';
+    return 'type-other';
 }
 
 function updateTable(page) {
@@ -319,17 +340,12 @@ function updateTable(page) {
         var formattedAmt = Number(ufAmt).toLocaleString();
         var ufBalance = (transaction.balance / 1e30).toFixed(NANO_DECIMAL);
         //var formattedBalance = Number(ufBalance).toLocaleString();
+        var relativeDate = convert_timestamp_to_relative(transaction.local_timestamp);
         var readableDate = convert_timestamp_to_date(transaction.local_timestamp);
         var acctLink = '<a href="' + ACCOUNT_LINK + transaction.account + '">' + transaction.account + '</a>';
-        var transType = '';
-        if (transaction.type == 'send') {
-            transType = '<b style="color:#e04576">' + transaction.type + '</b>'
-        } else if (transaction.type == 'receive') {
-            transType = '<b style="color:rgb(22, 199, 132)">' + transaction.type + '</b>'
-        } else {
-            transType = '<b style="color:blue">' + transaction.type + '</b>'
-        }
-        var transactionRow = '<tr><td><a href="https://blocklattice.io/block/' + transaction.hash + '" target="_blank">' + readableDate + '</a></td><td>' + transType + '</td><td>' + acctLink + '</td><td>' + '\u04FE' + formattedAmt + '</td></tr>';
+        var transType = '<span class="type-pill ' + type_pill_class(transaction.type) + '">' + transaction.type + '</span>';
+        var dateLink = '<a href="https://blocklattice.io/block/' + transaction.hash + '" target="_blank" title="' + readableDate + '">' + relativeDate + '</a>';
+        var transactionRow = '<tr><td>' + dateLink + '</td><td>' + transType + '</td><td class="td-mono td-truncate">' + acctLink + '</td><td class="td-mono td-amount">' + '\u04FE' + formattedAmt + '</td></tr>';
         //<td>' + '\u04FE' + formattedBalance + '</td>
         $('#tblTransactions').append(transactionRow);
     });
@@ -396,6 +412,8 @@ $(function () {
     /* restore last currency or fallback to USD */
     const startCurrency = get_saved_currency();
     sync_currency_selects(startCurrency);
+
+    show_state(localStorage.getItem('address') ? 'loading' : 'empty');
 
     get_price_data(startCurrency);
 

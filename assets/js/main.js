@@ -61,7 +61,7 @@
 					'<option value="BTC">BTC</option> ' +
 				'</select> ' +
 				'<form id="formSearchMobile">' +
-					'<input class="inpt-main" type="text" name="address" id="inptSearchMobile" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" autocomplete="off" />' +
+					'<input class="inpt-main" type="text" name="address" id="inptSearchMobile" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="Paste a Nano address to view it" autocomplete="off" />' +
 					'<button type="button" aria-label="Search address" class="btn-main" id="btnSearchMobile" onclick="btnSearch_Press(\'mobile\')"><i class="fa fa-search"></i></button>' +
 				'</form>' +
 			'</div>'
