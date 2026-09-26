@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YP2J5C80YY"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -36,33 +36,47 @@
 
         <!-- Header -->
         <header id="header">
-            <nav id="nav">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="developertools.html">Developer Tools</a></li>
-                    <li><a href="supportnano.html">Support Nano</a></li>
-                </ul>
-            </nav>
-            <label class="sr-only" for="currency">Currency</label>
-            <select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value,'desktop')">
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="CAD">CAD</option>
-                <option value="GBP">GBP</option>
-                <option value="CNY">CNY</option>
-                <option value="JPY">JPY</option>
-                <option value="BTC">BTC</option>
-            </select>
-            <form id="formSearch">
-                <input class="inpt-main" type="text" name="address" id="inptSearch" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="nano_3rpa7oh9qr5b7ob9cbj573e3qf8esix4sdd5w6mh8fgenamjgbnwriwfty1q" autocomplete="off" />
-                <button type="button" aria-label="Search address" class="btn-main" id="btnSearch" onclick="btnSearch_Press('desktop')"><i class="fa fa-search" aria-hidden="true"></i></button>
-            </form>
+            <div class="hdr-left">
+                <div class="hdr-brand">
+                    <img src="images/mni_logo.png" alt="" class="hdr-logo">
+                    <span class="hdr-wordmark">My Nano Info</span>
+                </div>
+                <nav id="nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="developertools.html">Developer Tools</a></li>
+                        <li><a href="supportnano.html">Support Nano</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="hdr-actions">
+                <a class="price-pill" href="https://www.coingecko.com/en/coins/nano" title="Nano price via CoinGecko">
+                    <span class="px-ticker">Ӿ</span><span>=</span><span id="fiatSymbol"></span><span id="fiatPrice"></span>
+                </a>
+                <label class="refresh-toggle" style="margin:0 !important;">
+                    <input type="checkbox" id="autoRefreshChk">
+                    <span>Auto</span>
+                </label>
+                <div class="search-pill">
+                    <label class="sr-only" for="currency">Currency</label>
+                    <select name="currency" id="currency" class="drpdwn-main" onchange="get_price_data(this.value,'desktop')">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="CAD">CAD</option>
+                        <option value="GBP">GBP</option>
+                        <option value="CNY">CNY</option>
+                        <option value="JPY">JPY</option>
+                        <option value="BTC">BTC</option>
+                    </select>
+                    <span class="search-pill-divider"></span>
+                    <form id="formSearch" style="margin:0 !important;">
+                        <input class="inpt-main" type="text" name="address" id="inptSearch" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="Paste a Nano address to view it" autocomplete="off" />
+                        <button type="button" aria-label="Search address" class="btn-main" id="btnSearch" onclick="btnSearch_Press('desktop')"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+            </div>
         </header>
-        <h5 style="padding: 1.25rem 0 0 1.25rem; display:inline-block">Ӿ = <span id="fiatSymbol"></span><a href="https://www.coingecko.com/en/coins/nano"><span id="fiatPrice"></span></a></h5>
-        <div style="float:right; padding: 1.25rem 0 0 1.25rem;">
-            <input type="checkbox" id="autoRefreshChk">
-            <label for="autoRefreshChk" style="font-size:.9em">auto-refresh</label>
-        </div>
+
         <!-- Modal -->
         <div id="modal" class="modal">
             <div class="modal-content">
@@ -76,76 +90,121 @@
         <!-- Main -->
         <div id="main" class="wrapper style1 pt-2">
             <div class="container">
-                <header class="major">
-                    <h2 class="mb-2">My <span class="alt-header-color">Nano</span> Info</h2>
-                    <p id="txtAddress" class="mb-2 mt-0" style="line-break:anywhere">*Enter a Nano address above...</p>
-                    <p id="txtRep" class="mrg-btm-small mt-1" style="line-break: anywhere"></p>
-                    <div id="addressQR"><a class="qrLink" href=""></a></div>
-                    <h3 class="mrg-btm-small"><span id="txtBalanceNano"></span></h3>
-                    <h4 id="txtDateCreated" class="mrg-btm-small"></h4>
 
-                    <p id="errLog" class="mrg-btm-small"></p>
-                </header>
+                <p id="errLog" class="err-banner"></p>
 
-                <!-- Account Info -->
-                <section class="mrg-btm">
-                    <div class="row">
-                        <div class="col-12 col-12-xsmall">
-                            <header class="name-value">
-                                <h3>Latest Transaction</h3>
-                                <div class="row">
-                                    <span class="col-3 col-12-xsmall">Type:</span>
-                                    <span id="txtLatestType" class="col-9 col-12-xsmall"></span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-3 col-12-xsmall">Hash:</span>
-                                    <span id="txtHash" class="col-9 col-12-xsmall" style="line-break: anywhere"></span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-3 col-12-xsmall">Account:</span>
-                                    <span id="txtLatestAccount" class="col-9 col-12-xsmall" style="line-break: anywhere"></span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-3 col-12-xsmall">Amount (Ӿ):</span>
-                                    <span class="col-9 col-12-xsmall"><span id="txtLatestAmountNano"></span></span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-3 col-12-xsmall">Current Fiat Amount:</span>
-                                    <span id="txtLatestAmountFiat" class="col-9 col-12-xsmall"></span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-3 col-12-xsmall">Date:</span>
-                                    <span id="txtLatestDate" class="col-9 col-12-xsmall"></span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-3 col-12-xsmall">Height:</span>
-                                    <span id="txtConfHeight" class="col-9 col-12-xsmall"></span>
-                                </div>
-                            </header>
+                <!-- Empty State -->
+                <div id="emptyState" class="state-panel hero-panel">
+                    <div class="hero-icon"><img src="images/mni_logo.png" alt=""></div>
+                    <h2 class="hero-title">Track any <span class="alt-header-color">Nano</span> account</h2>
+                    <p class="hero-sub">Paste an address to see its balance, transaction history, and representative &mdash; free and instant.</p>
+                    <div class="hero-search">
+                        <form id="formSearchHero" class="hero-search-form">
+                            <input class="inpt-main" type="text" name="address" id="inptSearchHero" placeholder="nano_" required="required" minlength="65" maxlength="65" pattern="^nano_[a-zA-Z0-9_]+$" title="Paste a Nano address to view it" autocomplete="off" />
+                            <button type="button" aria-label="Search address" class="btn-main" id="btnSearchHero" onclick="btnSearch_Press('hero')"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                    <p class="hero-hint">Your last-viewed address is saved on this device for quick return visits.</p>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="state-panel" hidden>
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="card-label">Account</div>
+                            <div class="skel" style="height:16px;width:72%;margin-top:14px"></div>
+                            <div class="divider"></div>
+                            <div class="skel" style="height:32px;width:46%"></div>
+                            <div class="meta-grid">
+                                <div><span class="meta-label">Created</span><div class="skel" style="height:14px;width:80%"></div></div>
+                                <div><span class="meta-label">Representative</span><div class="skel" style="height:14px;width:65%"></div></div>
+                            </div>
+                        </div>
+                        <div class="card qr-card">
+                            <div class="skel" style="width:120px;height:120px;border-radius:10px"></div>
+                            <div class="skel" style="height:11px;width:70%"></div>
                         </div>
                     </div>
-                </section>
 
-                <!-- Recent Transactions -->
-                <section>
-                    <h3>Recent Transactions</h3>
-                    <div class="table-wrapper">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Type</th>
-                                    <th>Account</th>
-                                    <th>Amount</th>
-                                    <!--<th>Balance</th>-->
-                                </tr>
-                            </thead>
-                            <tbody id="tblTransactions">
-                            </tbody>
-                        </table>
+                    <div class="card">
+                        <div class="card-title">Latest Transaction</div>
+                        <div class="meta-grid meta-grid-2col">
+                            <div><span class="meta-label">Type</span><div class="skel" style="height:14px;width:40%"></div></div>
+                            <div><span class="meta-label">Hash</span><div class="skel" style="height:14px;width:75%"></div></div>
+                            <div><span class="meta-label">Account</span><div class="skel" style="height:14px;width:80%"></div></div>
+                            <div><span class="meta-label">Amount</span><div class="skel" style="height:14px;width:35%"></div></div>
+                            <div><span class="meta-label">Date</span><div class="skel" style="height:14px;width:50%"></div></div>
+                            <div><span class="meta-label">Height</span><div class="skel" style="height:14px;width:30%"></div></div>
+                        </div>
                     </div>
-                    <div id="pagination"></div>
-                </section>
+
+                    <div class="card">
+                        <div class="card-title">Recent Transactions</div>
+                        <div class="skel-row"></div>
+                        <div class="skel-row"></div>
+                        <div class="skel-row"></div>
+                        <div class="skel-row"></div>
+                        <div class="skel-row"></div>
+                    </div>
+                </div>
+
+                <!-- Result State -->
+                <div id="resultState" class="state-panel" hidden>
+
+                    <!-- Account Info -->
+                    <div class="grid-2">
+                        <div class="card account-card">
+                            <div class="card-label">Account</div>
+                            <p id="txtAddress" class="account-address"></p>
+                            <div class="divider"></div>
+                            <h3 class="balance-main"><span id="txtBalanceNano"></span></h3>
+                            <div class="meta-grid">
+                                <div><span class="meta-label">Created</span><span id="txtDateCreated" class="meta-value"></span></div>
+                                <div><span class="meta-label">Representative</span><span id="txtRep" class="meta-value mono"></span></div>
+                            </div>
+                        </div>
+                        <div class="card qr-card">
+                            <div id="addressQR"><a class="qrLink" href=""></a></div>
+                            <span class="qr-caption">Scan to open in wallet</span>
+                        </div>
+                    </div>
+
+                    <!-- Latest Transaction -->
+                    <div class="card">
+                        <div class="card-title">Latest Transaction</div>
+                        <div class="meta-grid meta-grid-2col">
+                            <div><span class="meta-label">Type</span><span id="txtLatestType" class="meta-value"></span></div>
+                            <div><span class="meta-label">Hash</span><span id="txtHash" class="meta-value mono"></span></div>
+                            <div><span class="meta-label">Account</span><span id="txtLatestAccount" class="meta-value mono"></span></div>
+                            <div><span class="meta-label">Amount (Ӿ)</span><span id="txtLatestAmountNano" class="meta-value"></span></div>
+                            <div><span class="meta-label">Current Fiat Amount</span><span id="txtLatestAmountFiat" class="meta-value"></span></div>
+                            <div><span class="meta-label">Date</span><span id="txtLatestDate" class="meta-value"></span></div>
+                            <div><span class="meta-label">Height</span><span id="txtConfHeight" class="meta-value"></span></div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Transactions -->
+                    <div class="card table-card">
+                        <div class="card-title">Recent Transactions</div>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Account</th>
+                                        <th class="th-amount">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblTransactions">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="pagination"></div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
